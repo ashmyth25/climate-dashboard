@@ -1,5 +1,5 @@
 // ── CONFIG ──
-const API_KEY = '85c1a27301729f7c84084832f091acda';
+const API_KEY = '00f092fc62ce76d8ff4ea910151ff781';
 const BASE = 'https://api.openweathermap.org/data/2.5';
 
 // ── TEMPERATURE UNIT STATE ──
