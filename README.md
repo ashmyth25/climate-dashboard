@@ -6,7 +6,7 @@ A modern, responsive weather application built with **HTML, CSS, and JavaScript*
 
 ## 🌐 Live Demo
 
-🔗 **Live Website:** https://YOUR-LIVE-DEMO-LINK
+🔗 **Live Website:** https://ashmyth25.github.io/climate-dashboard/
 
 ---
 
