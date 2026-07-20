@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WeatherNow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+  <div class="bg-layer" id="bgLayer"></div>
+
+  <nav class="nav">
+    <span class="nav-logo">weather<span class="accent">now</span></span>
+    <div class="nav-right">
+      <div class="temp-toggle">
+        <button id="celsiusBtn" class="temp-btn active" data-unit="C">°C</button>
+        <button id="fahrenheitBtn" class="temp-btn" data-unit="F">°F</button>
+      </div>
+      <span class="nav-sub" id="currentTime"></span>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- SEARCH -->
+    <div class="search-wrap">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search any city..."
+          autocomplete="off"
+        />
+        <button id="searchBtn">Search</button>
+        <button id="favoriteBtn" title="Add to favorites" aria-label="Add current city to favorites">⭐</button>
+        <button id="locationBtn" title="Use my location" aria-label="Use my current location">📍</button>
+      </div>
+      <p class="search-hint">Try: Mumbai, Tokyo, New York, London</p>
+    </div>
+
+    <!-- FAVORITE CITIES -->
+    <div class="favorites-section hidden" id="favoritesSection">
+      <p class="favorites-label">⭐ Favorites</p>
+      <div class="favorites-grid" id="favoritesGrid"></div>
+    </div>
+
+    <!-- RECENT SEARCHES -->
+    <div class="recent-section hidden" id="recentSection">
+      <div class="recent-header">
+        <p class="recent-label">🕐 Recent</p>
+        <button id="clearRecentBtn" class="clear-btn" title="Clear history">Clear</button>
+      </div>
+      <div class="recent-grid" id="recentGrid"></div>
+    </div>
+
+    <!-- LOADING -->
+    <div class="loading hidden" id="loading">
+      <div class="spinner"></div>
+      <p>Fetching weather data...</p>
+    </div>
+
+    <!-- ERROR -->
+    <div class="error-box hidden" id="errorBox">
+      <span>⚠️</span>
+      <p id="errorMsg">City not found. Check the spelling and try again.</p>
+    </div>
+
+    <!-- MAIN WEATHER CARD -->
+    <div class="weather-card hidden" id="weatherCard">
+
+      <div class="card-top">
+        <div class="location-info">
+          <h1 class="city-name" id="cityName"></h1>
+          <p class="country" id="countryName"></p>
+          <p class="date-line" id="dateLine"></p>
+        </div>
+        <div class="condition-badge" id="conditionBadge"></div>
+      </div>
+
+      <div class="card-mid">
+        <div class="temp-block">
+          <span class="temp-main" id="tempMain"></span>
+          <span class="temp-unit" id="tempUnit">°C</span>
+        </div>
+        <div class="weather-icon-wrap">
+          <img id="weatherIcon" src="" alt="weather icon"/>
+          <p class="condition-text" id="conditionText"></p>
+        </div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-item">
+          <span class="stat-icon">🌡️</span>
+          <span class="stat-label">Feels Like</span>
+          <span class="stat-val" id="feelsLike"></span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-icon">💧</span>
+          <span class="stat-label">Humidity</span>
+          <span class="stat-val" id="humidity"></span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-icon">💨</span>
+          <span class="stat-label">Wind</span>
+          <span class="stat-val" id="windSpeed"></span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-icon">👁️</span>
+          <span class="stat-label">Visibility</span>
+          <span class="stat-val" id="visibility"></span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-icon">📊</span>
+          <span class="stat-label">Pressure</span>
+          <span class="stat-val" id="pressure"></span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-icon">☁️</span>
+          <span class="stat-label">Cloud Cover</span>
+          <span class="stat-val" id="clouds"></span>
+        </div>
+      </div>
+
+      <!-- SUNRISE SUNSET -->
+      <div class="sun-row">
+        <div class="sun-item">
+          <span>🌅</span>
+          <div>
+            <p class="sun-label">Sunrise</p>
+            <p class="sun-time" id="sunrise"></p>
+          </div>
+        </div>
+        <div class="sun-divider"></div>
+        <div class="sun-item">
+          <span>🌇</span>
+          <div>
+            <p class="sun-label">Sunset</p>
+            <p class="sun-time" id="sunset"></p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 5 DAY FORECAST -->
+    <div class="forecast-wrap hidden" id="forecastWrap">
+      <p class="forecast-label"> 5-day forecast</p>
+      <div class="forecast-grid" id="forecastGrid"></div>
+    </div>
+
+    <!-- 24 HOUR FORECAST -->
+    <div class="hourly-wrap hidden" id="hourlyWrap">
+      <p class="hourly-label">⏰ 24-hour forecast</p>
+      <div class="hourly-scroll" id="hourlyScroll"></div>
+    </div>
+
+    <!-- DEFAULT STATE -->
+    <div class="default-state" id="defaultState">
+      <div class="default-icon">🌍</div>
+      <h2>Where in the world are you?</h2>
+      <p>Search a city above to get live weather data.</p>
+      <div class="quick-cities">
+        <button class="quick-btn" data-city="Mumbai">Mumbai</button>
+        <button class="quick-btn" data-city="New York">New York</button>
+        <button class="quick-btn" data-city="Tokyo">Tokyo</button>
+        <button class="quick-btn" data-city="London">London</button>
+        <button class="quick-btn" data-city="Dubai">Dubai</button>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <p>data from <span class="accent">OpenWeatherMap API</span> — built by asmit</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
